@@ -2,7 +2,7 @@
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#101d2a" />
     <script>
       document.documentElement.classList.add("has-opening");
@@ -82,8 +82,8 @@
         <nav class="main-nav" id="principal" aria-label="Navegação principal">
           <a href="#legado">O legado</a><a href="#auditorio">O auditório</a
           ><a href="#memorias">Memórias</a>
-          <a class="nav-cta" href="#legado"
-            >Explorar homenagem <svg><use href="#arrow" /></svg
+          <a class="nav-cta" href="#visita"
+            >Visitar o auditório <svg><use href="#arrow" /></svg
           ></a>
         </nav>
       </div>
@@ -102,9 +102,14 @@
               Um espaço de conhecimento.<br />Uma homenagem a quem fez do saber
               um legado.
             </p>
-            <a class="button button-gold" href="#legado"
-              >Conheça essa história <svg><use href="#arrow" /></svg
-            ></a>
+            <div class="hero-actions">
+              <a class="button button-gold" href="#legado"
+                >Conheça essa história <svg><use href="#arrow" /></svg
+              ></a>
+              <a class="text-link" href="#visita"
+                >Visitar o auditório <svg><use href="#arrow" /></svg
+              ></a>
+            </div>
           </div>
           <div class="hero-portrait">
             <div class="portrait-arch" aria-hidden="true"></div>
@@ -312,8 +317,10 @@
               <p>Uma homenagem eternizada no nome deste auditório.</p>
             </div>
           </div>
+        </div>
 
-          <div class="tour" id="tour" role="group" aria-label="Visita interativa ao auditório">
+        <div class="tour" id="tour" role="group" aria-label="Visita interativa ao auditório">
+          <span class="tour-anchor" id="visita"></span>
             <div class="tour-stage">
               <img
                 class="tour-poster"
@@ -388,7 +395,6 @@
               </div>
               <p class="lightbox-caption" aria-live="polite"></p>
             </dialog>
-          </div>
         </div>
       </section>
 
@@ -586,10 +592,11 @@
 
       <section class="closing" aria-label="Mensagem de homenagem">
         <div class="wrap reveal">
-          <div class="closing-mark" aria-hidden="true">“</div>
           <p class="closing-quote">
-            Servir é perpetuar<br class="mobile-break" />
-            a confiança pública.
+            <span aria-hidden="true">“</span>Servir é perpetuar<br
+              class="mobile-break"
+            />
+            a confiança pública.<span aria-hidden="true">”</span>
           </p>
           <div class="closing-line" aria-hidden="true"></div>
           <p class="closing-name">Dr. Wolfgang Jorge Coelho</p>

@@ -31,6 +31,8 @@ O original divergia entre “48 anos” e “mais de três décadas”; a nova r
 
 Para trocar uma fotografia, atualize `src`, `srcset`, `sizes`, `data-full`, dimensões, texto alternativo e legenda no HTML; o lightbox lê esses dados automaticamente.
 
+A visita ocupa a tela de ponta a ponta. No celular em pé, os controles ficam logo abaixo da imagem; ao deitar o aparelho com a visita na tela, ela maximiza sozinha e volta ao ficar em pé.
+
 A visita só começa a carregar quando a seção se aproxima da tela e para de desenhar quando sai dela. Na página, o gesto vertical e a roda do mouse continuam rolando o site; com a visita maximizada, servem para olhar para cima e para baixo e para o zoom. Sem WebGL ou sem JavaScript, aparece `assets/auditorio-visita.webp`.
 
 ## Acessibilidade e desempenho

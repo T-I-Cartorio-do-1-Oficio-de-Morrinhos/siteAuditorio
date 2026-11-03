@@ -9,7 +9,8 @@
   --line: rgba(199, 166, 108, 0.38);
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "DM Sans", Arial, sans-serif;
-  --gutter: clamp(24px, 5.5vw, 90px);
+  --gutter: max(clamp(24px, 5.5vw, 90px), env(safe-area-inset-left), env(safe-area-inset-right));
+  --header: 88px;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 * {
@@ -17,7 +18,7 @@
 }
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px;
+  scroll-padding-top: var(--header);
 }
 body {
   margin: 0;
@@ -30,8 +31,10 @@ body.dialog-open {
   overflow: hidden;
 }
 button,
-a {
+a,
+summary {
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 a {
   color: inherit;
@@ -655,6 +658,7 @@ h3 {
 .auditorium {
   position: relative;
   overflow: hidden;
+  padding-bottom: 0;
 }
 .auditorium .chapter {
   color: var(--gold-light);
@@ -912,10 +916,10 @@ figcaption > span {
   isolation: isolate;
   overflow: hidden;
 }
-.closing-mark {
-  font: 400 130px/0.6 var(--serif);
+.closing-quote > span {
   color: var(--gold);
-  height: 65px;
+  font-size: 1.25em;
+  line-height: 0.5;
 }
 .closing-quote {
   font: 400 clamp(39px, 4.8vw, 75px)/1.1 var(--serif);
@@ -1194,7 +1198,7 @@ figcaption > span {
   .main-nav .nav-cta {
     margin-left: 0;
     margin-top: 10px;
-    font-size: 13px;
+    font-size: 16px;
     justify-content: space-between;
   }
   .nav-cta:before {
@@ -1215,7 +1219,7 @@ figcaption > span {
     font-size: 28px;
   }
   .hero-description {
-    font-size: 14px;
+    font-size: 16px;
     max-width: 310px;
   }
   .hero-portrait > img {
@@ -1244,7 +1248,7 @@ figcaption > span {
     margin-top: 36px;
   }
   .legacy-body > p {
-    font-size: 14px;
+    font-size: 16px;
   }
   .values-tabs {
     gap: 8px;
@@ -1324,7 +1328,7 @@ figcaption > span {
     margin-top: 23px;
   }
   .hero-description {
-    font-size: 13px;
+    font-size: 16px;
     line-height: 1.65;
     margin-top: 16px;
     max-width: none;
@@ -1332,7 +1336,7 @@ figcaption > span {
   .button {
     min-height: 52px;
     padding: 15px 23px;
-    font-size: 12px;
+    font-size: 15px;
     gap: 26px;
   }
   .button-gold {
@@ -1366,12 +1370,12 @@ figcaption > span {
   }
   .hero-foot {
     min-height: 73px;
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 0.1em;
     gap: 10px;
   }
   .hero-foot > a {
-    font-size: 10px;
+    font-size: 12px;
     gap: 5px;
     letter-spacing: 0;
   }
@@ -1383,13 +1387,13 @@ figcaption > span {
     display: none;
   }
   .hero-foot > span:first-child {
-    font-size: 10px;
+    font-size: 12px;
   }
   .section-space {
     padding-block: 64px;
   }
   .chapter {
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.17em;
     margin-bottom: 22px;
   }
@@ -1414,16 +1418,16 @@ figcaption > span {
     display: none;
   }
   .legacy-body > p {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.9;
     margin-bottom: 19px;
   }
   .biography {
-    font-size: 13px;
+    font-size: 15px;
     margin-top: 23px;
   }
   .biography summary {
-    font-size: 12px;
+    font-size: 15px;
     min-height: 44px;
   }
   .values-tabs {
@@ -1445,25 +1449,25 @@ figcaption > span {
     line-height: 1.1;
   }
   .value-panels .quote-source {
-    font-size: 10px;
+    font-size: 13px;
   }
   .value-panels h3 {
     font-size: 32px;
   }
   .value-panels p {
-    font-size: 13px;
+    font-size: 15px;
   }
   .auditorium h2 {
     font-size: 49px;
     margin-bottom: 23px;
   }
   .auditorium-copy > p:not(.chapter) {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.85;
     margin-top: 18px;
   }
   .inauguration > span {
-    font-size: 10px;
+    font-size: 12px;
   }
   .inauguration p {
     font-size: 22px;
@@ -1482,7 +1486,7 @@ figcaption > span {
     max-width: 430px;
   }
   .gallery-intro > p {
-    font-size: 13px;
+    font-size: 15px;
     max-width: 300px;
     line-height: 1.75;
     margin-top: 19px;
@@ -1497,11 +1501,11 @@ figcaption > span {
   }
   .filters button {
     padding: 10px 16px;
-    font-size: 11px;
+    font-size: 14px;
     min-height: 44px;
   }
   #gallery-count {
-    font-size: 9px;
+    font-size: 12px;
     white-space: nowrap;
   }
   .gallery {
@@ -1542,16 +1546,12 @@ figcaption > span {
     right: 10px;
   }
   .gallery-help {
-    font-size: 10px;
+    font-size: 13px;
     text-align: left;
     margin-top: 28px;
   }
   .closing {
     padding-block: 67px 47px;
-  }
-  .closing-mark {
-    font-size: 104px;
-    height: 50px;
   }
   .closing-quote {
     font-size: 42px;
@@ -1566,7 +1566,7 @@ figcaption > span {
     width: 40px;
   }
   .closing-name {
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 0.18em;
   }
   .closing-note {
@@ -1584,14 +1584,14 @@ figcaption > span {
   }
   .site-footer p {
     text-align: left;
-    font-size: 10px;
+    font-size: 13px;
     max-width: 280px;
     line-height: 1.8;
   }
   .site-footer .text-link {
     padding: 6px 0;
     min-height: 44px;
-    font-size: 11px;
+    font-size: 14px;
   }
   .lightbox {
     padding: 12px 16px max(16px, env(safe-area-inset-bottom));
@@ -1629,7 +1629,7 @@ figcaption > span {
     margin-top: 14px;
   }
   .lightbox-hint {
-    font-size: 9px;
+    font-size: 12px;
   }
   .js .reveal:not(.is-visible) {
     transform: translateY(16px);
@@ -1647,7 +1647,7 @@ figcaption > span {
     max-width: 275px;
   }
   .hero-description {
-    font-size: 12px;
+    font-size: 15px;
   }
   .hero-portrait {
     height: 300px;
@@ -1660,13 +1660,13 @@ figcaption > span {
   }
   .filters button {
     padding-inline: 13px;
-    font-size: 10px;
+    font-size: 13px;
   }
   .filters {
     gap: 6px;
   }
   #gallery-count {
-    font-size: 8px;
+    font-size: 12px;
   }
   .auditorium h2,
   .gallery-intro h2 {
@@ -1694,26 +1694,23 @@ figcaption > span {
     transform: none;
   }
 }
-/* Visita interativa ao auditório */
+/* Visita interativa ao auditório: ocupa a tela de ponta a ponta */
 .tour {
   position: relative;
+  background: #0a121b;
 }
-.tour:before {
-  content: "";
+.tour-anchor {
   position: absolute;
-  inset: -26px -23px 60px 62%;
-  border: 1px solid var(--line);
-  border-radius: 200px 200px 0 0;
-  pointer-events: none;
+  top: 0;
 }
 .tour-stage {
   position: relative;
-  aspect-ratio: 16/7.6;
-  max-height: 80vh;
   width: 100%;
+  height: calc(100vh - var(--header));
+  height: min(calc(100svh - var(--header)), 58vw);
+  min-height: 420px;
   overflow: hidden;
   background: #0a121b;
-  border: 1px solid var(--gold);
 }
 .tour-poster,
 .tour-canvas {
@@ -1733,6 +1730,7 @@ figcaption > span {
   transition: opacity 0.7s ease;
   -webkit-user-select: none;
   user-select: none;
+  -webkit-touch-callout: none;
 }
 .tour-canvas:focus {
   outline: 0;
@@ -1760,8 +1758,8 @@ figcaption > span {
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 34px;
-  margin: -17px 0 0 -17px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
   padding: 0 5px 0 0;
   border: 0;
   background: none;
@@ -1775,8 +1773,8 @@ figcaption > span {
 .tour-point b {
   position: relative;
   flex: none;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: 1px solid var(--gold-light);
   background: #101d2a66;
@@ -1787,7 +1785,7 @@ figcaption > span {
 .tour-point b:after {
   content: "";
   position: absolute;
-  inset: 12px;
+  inset: 13px;
   border-radius: 50%;
   background: var(--gold-light);
 }
@@ -1800,7 +1798,7 @@ figcaption > span {
   max-width: 0;
   overflow: hidden;
   white-space: nowrap;
-  font-size: 13px;
+  font-size: 14px;
   text-shadow: 0 1px 8px #000d;
   transition: max-width 0.35s var(--ease);
 }
@@ -1812,13 +1810,13 @@ figcaption > span {
 .tour-status {
   position: absolute;
   left: 50%;
-  bottom: 18px;
+  bottom: 92px;
   transform: translateX(-50%);
   max-width: calc(100% - 32px);
-  padding: 7px 14px;
+  padding: 8px 14px;
   background: #101d2ab8;
   border: 1px solid var(--line);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.02em;
   text-align: center;
   white-space: nowrap;
@@ -1840,10 +1838,10 @@ figcaption > span {
 }
 .tour-card {
   position: absolute;
-  right: 18px;
+  right: 24px;
   top: 50%;
-  width: min(310px, calc(100% - 24px));
-  padding: 18px 20px 20px;
+  width: min(330px, calc(100% - 24px));
+  padding: 20px 22px 22px;
   background: #101d2ae6;
   border: 1px solid var(--line);
   transform: translateY(-50%);
@@ -1858,21 +1856,21 @@ figcaption > span {
   transform: translate(14px, -50%);
 }
 .tour-card h3 {
-  font: 400 25px/1.15 var(--serif);
-  padding-right: 30px;
+  font: 400 27px/1.15 var(--serif);
+  padding-right: 34px;
 }
 .tour-card p {
   margin-top: 6px;
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.55;
   color: #c5ccd2;
 }
 .tour-card-close {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 34px;
-  height: 34px;
+  top: 6px;
+  right: 6px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   border: 0;
@@ -1882,8 +1880,8 @@ figcaption > span {
   color: var(--gold-light);
 }
 .tour-card-close svg {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
 }
 .tour-angles {
   margin-top: 12px;
@@ -1893,20 +1891,20 @@ figcaption > span {
 }
 .tour-angles > span {
   display: block;
-  font-size: 10px;
-  letter-spacing: 0.15em;
+  font-size: 11px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--gold-light);
 }
 .tour-thumbs {
   display: flex;
-  gap: 7px;
-  margin-top: 7px;
+  gap: 8px;
+  margin-top: 8px;
 }
 .tour-thumbs button {
   flex: 1;
   min-width: 0;
-  height: 62px;
+  height: 66px;
   padding: 0;
   overflow: hidden;
   background: none;
@@ -1921,27 +1919,34 @@ figcaption > span {
   height: 100%;
   object-fit: cover;
 }
+/* Barra de controles, sobre a imagem */
 .tour-bar {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px 24px;
-  padding-top: 14px;
+  gap: 24px;
+  width: max-content;
+  max-width: calc(100% - 20px);
+  padding: 5px 6px 5px 22px;
+  background: #101d2ae6;
+  border: 1px solid var(--line);
 }
 .tour-views {
   display: flex;
-  gap: 26px;
+  gap: 24px;
 }
 .tour-views button {
+  min-width: 44px;
   min-height: 44px;
   padding: 0;
   border: 0;
   border-bottom: 1px solid transparent;
   background: none;
-  font-size: 14px;
-  color: #c5ccd2;
+  font-size: 15px;
+  color: #d5dade;
   transition:
     color 0.2s,
     border-color 0.2s;
@@ -1956,7 +1961,7 @@ figcaption > span {
 .tour-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
 }
 .tour-led,
 .tour-max {
@@ -1967,7 +1972,7 @@ figcaption > span {
   padding: 0 16px;
   border: 1px solid var(--line);
   background: none;
-  font-size: 13px;
+  font-size: 14px;
   white-space: nowrap;
   transition:
     border-color 0.2s,
@@ -1978,8 +1983,8 @@ figcaption > span {
   border-color: var(--gold-light);
 }
 .tour-led i {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: #5f6b76;
   transition:
@@ -2020,87 +2025,115 @@ figcaption > span {
   width: 100%;
   height: 100vh;
   height: 100dvh;
-  background: #0a121b;
-}
-.tour.is-max:before {
-  display: none;
 }
 .tour.is-max .tour-stage {
-  aspect-ratio: auto;
   height: 100%;
-  max-height: none;
-  border: 0;
+  min-height: 0;
 }
 .tour.is-max .tour-canvas {
   touch-action: none;
 }
-.tour.is-max .tour-bar {
-  position: absolute;
-  left: 50%;
-  bottom: max(14px, env(safe-area-inset-bottom));
-  transform: translateX(-50%);
-  flex-wrap: nowrap;
-  width: max-content;
-  max-width: calc(100% - 20px);
-  padding: 4px 6px 4px 20px;
-  background: #101d2ae0;
-  border: 1px solid var(--line);
-}
-.tour.is-max .tour-hint {
-  bottom: 84px;
-}
-.tour.is-max .tour-lightbox {
-  z-index: 1;
-}
 .tour-lightbox .lightbox-image {
   background: #0a121b;
 }
+
+/* Início e cabeçalho no celular */
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 28px;
+}
+.hero-actions .text-link {
+  font-size: 15px;
+  min-height: 44px;
+}
 @media (max-width: 900px) {
-  .tour:before {
-    inset: -18px -12px 90px 45%;
+  :root {
+    --header: 72px;
+  }
+  .brand {
+    padding-block: 8px;
+  }
+  .hero-foot > a {
+    min-height: 44px;
+    justify-content: center;
   }
   .tour-stage {
-    aspect-ratio: 16/10;
+    height: calc(80vh - var(--header));
+    height: min(calc(100svh - var(--header)), 100vw);
+  }
+}
+@media (pointer: coarse) {
+  .tour-canvas:focus-visible {
+    outline: 0;
+  }
+  .tour-point {
+    height: 46px;
+    margin: -23px 0 0 -23px;
+  }
+  .tour-point b {
+    width: 46px;
+    height: 46px;
+  }
+  .tour-point b:after {
+    inset: 18px;
   }
 }
 @media (max-width: 650px) {
-  .tour:before {
-    display: none;
+  .curtain-skip {
+    font-size: 14px;
   }
+  .gallery-item figcaption span {
+    font-size: 12px;
+  }
+  /* Em pé, a imagem fica o maior possível, com os controles logo abaixo */
   .tour-stage {
-    aspect-ratio: 4/5;
-    max-height: none;
-  }
-  .tour.is-max .tour-stage {
-    aspect-ratio: auto;
+    height: calc(100vh - 210px);
+    height: min(calc(100svh - var(--header) - 126px), 150vw);
+    min-height: 360px;
   }
   .tour-bar {
-    gap: 4px 12px;
-    padding-top: 8px;
+    position: static;
+    transform: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    width: auto;
+    max-width: none;
+    padding: 6px var(--gutter) 16px;
+    border: 0;
+    background: #0f1b28;
   }
   .tour-views {
-    width: 100%;
     justify-content: space-between;
-    gap: 12px;
+    gap: 8px;
   }
   .tour-views button {
     flex: 1;
-    text-align: center;
+    min-height: 48px;
+    font-size: 16px;
   }
   .tour-actions {
-    width: 100%;
+    gap: 8px;
   }
   .tour-led,
   .tour-max {
     flex: 1;
     justify-content: center;
-    padding: 0 10px;
+    min-height: 48px;
+    padding: 0 8px;
+    font-size: 15px;
+  }
+  .tour-hint {
+    bottom: 14px;
+    font-size: 14px;
   }
   .tour-card {
     top: auto;
-    right: 12px;
-    left: 12px;
-    bottom: 12px;
+    right: 10px;
+    left: 10px;
+    bottom: 10px;
     width: auto;
     padding: 14px 16px 16px;
     transform: none;
@@ -2108,81 +2141,99 @@ figcaption > span {
   .tour-card[data-fechado="true"] {
     transform: translateY(12px);
   }
-  .tour-thumbs button {
-    height: 54px;
+  .tour-card h3 {
+    font-size: 25px;
   }
-  .tour-hint {
-    font-size: 11px;
+  .tour-thumbs button {
+    height: 62px;
   }
   .tour.is-max .tour-bar {
-    width: calc(100% - 16px);
-    flex-wrap: wrap;
-    padding: 4px 8px 8px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    background: #101d2ae6;
   }
   .tour.is-max .tour-card {
-    bottom: 140px;
+    bottom: 136px;
   }
   .tour.is-max .tour-hint {
-    bottom: 150px;
+    bottom: 146px;
   }
 }
-/* Celular deitado com a visita maximizada */
-@media (pointer: coarse) {
-  .tour-point {
-    height: 44px;
-    margin: -22px 0 0 -22px;
-  }
-  .tour-point b {
-    width: 44px;
-    height: 44px;
-  }
-  .tour-point b:after {
-    inset: 17px;
+@media (min-width: 651px) and (max-width: 900px) {
+  .chapter,
+  .hero-foot,
+  .hero-foot > span,
+  .inauguration > span,
+  .value-panels .quote-source,
+  #gallery-count,
+  .gallery-help,
+  figcaption > span,
+  .closing-name,
+  .site-footer p,
+  .site-footer .text-link {
+    font-size: 13px;
   }
 }
-@media (max-height: 500px) {
-  .tour.is-max .tour-bar {
+/* Celular deitado: a sala ocupa quase toda a altura */
+@media (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --header: 56px;
+  }
+  .header-inner {
+    min-height: 56px;
+  }
+  .tour-stage {
+    height: calc(100vh - var(--header));
+    height: calc(100svh - var(--header));
+    min-height: 0;
+  }
+  .tour-bar {
     bottom: max(6px, env(safe-area-inset-bottom));
+    gap: 14px;
     padding: 2px 4px 2px 14px;
-    flex-wrap: nowrap;
-    width: max-content;
   }
-  .tour.is-max .tour-views {
-    width: auto;
-    gap: 18px;
+  .tour-views {
+    gap: 16px;
   }
-  .tour.is-max .tour-actions {
-    width: auto;
+  .tour-views button,
+  .tour-led,
+  .tour-max {
+    min-height: 40px;
+    font-size: 14px;
   }
-  .tour.is-max .tour-led,
-  .tour.is-max .tour-max,
-  .tour.is-max .tour-views button {
-    min-height: 38px;
-    flex: none;
+  .tour-led,
+  .tour-max {
+    padding: 0 12px;
   }
-  .tour.is-max .tour-card {
-    top: 10px;
+  .tour-hint {
+    bottom: 58px;
+  }
+  .tour-card {
+    top: 8px;
+    right: max(8px, env(safe-area-inset-right));
     bottom: auto;
     left: auto;
-    right: 10px;
-    width: min(280px, 44vw);
+    width: min(290px, 44vw);
     padding: 10px 14px 12px;
     transform: none;
   }
-  .tour.is-max .tour-card[data-fechado="true"] {
+  .tour-card[data-fechado="true"] {
     transform: translateX(12px);
   }
-  .tour.is-max .tour-card h3 {
-    font-size: 21px;
+  .tour-card h3 {
+    font-size: 22px;
   }
-  .tour.is-max .tour-angles > span {
+  .tour-card p {
+    font-size: 14px;
+  }
+  .tour-angles > span {
     display: none;
   }
-  .tour.is-max .tour-thumbs button {
-    height: 44px;
-  }
-  .tour.is-max .tour-hint {
-    bottom: 58px;
+  .tour-thumbs button {
+    height: 46px;
   }
 }
 @media print {

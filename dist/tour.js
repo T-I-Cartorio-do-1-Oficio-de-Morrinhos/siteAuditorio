@@ -10,7 +10,7 @@
       olhar: { yaw: -8.2, pitch: 7 },
       centroLuz: -8.2,
       panini: 0.55,
-      abertura: { largura: 1.28, altura: 0.6 },
+      abertura: { largura: 1.28, altura: 0.6, retrato: 0.8 },
       pontos: [
         {
           lon: -4.5,
@@ -292,8 +292,8 @@
 
   function fovBase(c) {
     // Em tela larga a abertura diminui: é o que evita o esticado nas pontas
-    const a = CENAS[c].abertura || { largura: AJUSTE.meiaLargura, altura: 0.5 };
-    const t = aspecto >= 1 ? Math.min(a.altura, a.largura / aspecto) : Math.max(0.62, a.altura);
+    const a = CENAS[c].abertura || { largura: AJUSTE.meiaLargura, altura: 0.5, retrato: 0.72 };
+    const t = aspecto >= 1 ? Math.min(a.altura, a.largura / aspecto) : a.retrato;
     return (2 * Math.atan(t)) / RAD;
   }
 
@@ -376,6 +376,7 @@
     const fator = Math.sqrt(Math.min(1, limite / (cw * ch * dpr * dpr)));
     canvas.width = Math.round(cw * dpr * fator);
     canvas.height = Math.round(ch * dpr * fator);
+    medeBarra();
     if (!iniciado) return;
     gl.viewport(0, 0, canvas.width, canvas.height);
     if (mudouForma) {
@@ -385,6 +386,13 @@
       const cabe = dentro(cena, yaw, CENAS[cena].olhar.pitch, 22);
       posiciona(cena, cabe ? yaw : undefined);
     }
+  }
+
+  // Marcadores não ficam atrás da barra quando ela está sobre a imagem
+  let margemBarra = 24;
+  const barra = raiz.querySelector(".tour-bar");
+  function medeBarra() {
+    margemBarra = getComputedStyle(barra).position === "absolute" ? barra.offsetHeight + 34 : 24;
   }
 
   /* ---------- Movimento: para na borda da foto ---------- */
@@ -535,7 +543,7 @@
     const tx = ty * aspecto,
       s = Math.tan(pitch * RAD),
       D = CENAS[cena].panini;
-    const fundo = maximizado ? 84 : 24;
+    const fundo = margemBarra;
     for (const e of elementos) {
       if (e.c !== cena || fase !== 0 || retorno) {
         e.b.hidden = true;
@@ -624,6 +632,25 @@
   });
   foto.querySelector(".lightbox-prev").addEventListener("click", () => mostraFoto(fotoAtual - 1));
   foto.querySelector(".lightbox-next").addEventListener("click", () => mostraFoto(fotoAtual + 1));
+  let origemToque = null;
+  foto.addEventListener(
+    "touchstart",
+    (e) => {
+      origemToque = e.touches.length === 1 ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null;
+    },
+    { passive: true },
+  );
+  foto.addEventListener(
+    "touchend",
+    (e) => {
+      if (!origemToque || !e.changedTouches.length) return;
+      const dx = e.changedTouches[0].clientX - origemToque.x,
+        dy = e.changedTouches[0].clientY - origemToque.y;
+      if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4) mostraFoto(fotoAtual + (dx < 0 ? 1 : -1));
+      origemToque = null;
+    },
+    { passive: true },
+  );
   foto.addEventListener("click", (e) => {
     if (e.target === foto || e.target.classList.contains("lightbox-stage")) foto.close();
   });
@@ -683,12 +710,34 @@
     }
     canvas.focus({ preventScroll: true });
   }
-  botaoMax.addEventListener("click", () => maximiza(!maximizado));
+  botaoMax.addEventListener("click", () => {
+    maxAutomatico = false;
+    maximiza(!maximizado);
+  });
   ["fullscreenchange", "webkitfullscreenchange"].forEach((n) =>
     document.addEventListener(n, () => {
       if (!(document.fullscreenElement || document.webkitFullscreenElement) && maximizado) maximiza(false);
     }),
   );
+
+  // Celular deitado com a visita na tela: ela ocupa tudo sozinha, e volta ao ficar em pé
+  let maxAutomatico = false,
+    metadeNaTela = false;
+  const deitado = matchMedia("(orientation: landscape) and (max-height: 500px)");
+  deitado.addEventListener("change", (e) => {
+    if (!toque || !iniciado) return;
+    if (e.matches && !maximizado) {
+      // Vale o que estava na tela antes de girar: depois do giro a página muda de altura
+      if (metadeNaTela) {
+        maxAutomatico = true;
+        maximiza(true);
+      }
+    } else if (!e.matches && maxAutomatico) {
+      maxAutomatico = false;
+      maximiza(false);
+      requestAnimationFrame(() => palco.scrollIntoView({ block: "center", behavior: "instant" }));
+    }
+  });
 
   let tocou = false;
   function atualizaDica() {
@@ -697,7 +746,7 @@
       dica.hidden = false;
       return;
     }
-    dica.textContent = "Arraste para olhar em volta";
+    dica.textContent = toque ? "Arraste para os lados" : "Arraste para olhar em volta";
     dica.hidden = tocou;
   }
 
@@ -892,6 +941,13 @@
     visivel = e.isIntersecting;
     if (visivel) acorda();
   }).observe(raiz);
+
+  new IntersectionObserver(
+    ([e]) => {
+      metadeNaTela = e.intersectionRatio >= 0.5;
+    },
+    { threshold: [0, 0.5] },
+  ).observe(palco);
 
   document.addEventListener("visibilitychange", acorda);
 })();
