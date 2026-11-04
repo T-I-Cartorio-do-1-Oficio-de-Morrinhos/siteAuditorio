@@ -33,6 +33,8 @@ Para trocar uma fotografia, atualize `src`, `srcset`, `sizes`, `data-full`, dime
 
 A visita ocupa a tela de ponta a ponta. No celular em pé, os controles ficam logo abaixo da imagem; ao deitar o aparelho com a visita na tela, ela maximiza sozinha e volta ao ficar em pé.
 
+Com a visita maximizada no celular, também é possível olhar em volta mexendo o aparelho. Isso usa o sensor de orientação, que exige HTTPS; no iPhone, o navegador pede permissão ao tocar em Maximizar. O botão com o ícone de celular liga e desliga o recurso, e ele some em aparelhos sem giroscópio.
+
 A visita só começa a carregar quando a seção se aproxima da tela e para de desenhar quando sai dela. Na página, o gesto vertical e a roda do mouse continuam rolando o site; com a visita maximizada, servem para olhar para cima e para baixo e para o zoom. Sem WebGL ou sem JavaScript, aparece `assets/auditorio-visita.webp`.
 
 ## Acessibilidade e desempenho

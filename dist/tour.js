@@ -293,7 +293,9 @@
   function fovBase(c) {
     // Em tela larga a abertura diminui: é o que evita o esticado nas pontas
     const a = CENAS[c].abertura || { largura: AJUSTE.meiaLargura, altura: 0.5, retrato: 0.72 };
-    const t = aspecto >= 1 ? Math.min(a.altura, a.largura / aspecto) : a.retrato;
+    if (aspecto >= 1) return (2 * Math.atan(Math.min(a.altura, a.largura / aspecto))) / RAD;
+    // Tela bem alta (celular em pé, maximizado): fecha um pouco para sobrar espaço para girar
+    const t = aspecto < 0.6 ? Math.min(a.retrato, CENAS[c].abertura ? 0.62 : 0.5) : a.retrato;
     return (2 * Math.atan(t)) / RAD;
   }
 
@@ -485,6 +487,8 @@
       velYaw *= atrito;
       velPitch *= atrito;
     }
+
+    aplicaGiro();
 
     yaw += (alvoYaw - yaw) * f;
     pitch += (alvoPitch - pitch) * f;
@@ -689,6 +693,12 @@
     botaoMax.setAttribute("aria-label", ativo ? "Reduzir a visita" : "Maximizar a visita");
     botaoMax.querySelector("use").setAttribute("href", ativo ? "#shrink" : "#expand");
     botaoMax.querySelector("span").textContent = ativo ? "Reduzir" : "Maximizar";
+    botaoGiro.hidden = !(ativo && temSensor);
+    if (ativo) {
+      if (querGiro) pedeGiro().then(ligaGiro);
+    } else {
+      desligaGiro();
+    }
     ajustaTela();
     acorda();
     atualizaDica();
@@ -720,6 +730,122 @@
     }),
   );
 
+  /* ---------- Mover com o celular: usa o giroscópio, só com a visita maximizada ----------
+     Soma apenas o quanto o aparelho girou desde a última leitura. Assim, não importa
+     para onde a pessoa está virada, e ao chegar na borda da foto a imagem só para. */
+  const botaoGiro = raiz.querySelector(".tour-gyro");
+  const temSensor = toque && "DeviceOrientationEvent" in window;
+  const pedePermissao = temSensor && typeof DeviceOrientationEvent.requestPermission === "function"; // iPhone
+  let querGiro = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let permitido = !pedePermissao;
+  let giroLigado = false,
+    recebeuDados = false,
+    esperaDados = 0,
+    dicaGiroVista = false,
+    dicaAgora = "",
+    esperaDica = 0;
+  let frente = null,
+    rumo = null,
+    inclinacao = null,
+    giroYaw = 0,
+    giroPitch = 0;
+
+  function aoGirar(e) {
+    if (e.alpha === null || e.beta === null || e.gamma === null) return;
+    if (!recebeuDados) {
+      recebeuDados = true;
+      clearTimeout(esperaDados);
+      if (!dicaGiroVista) {
+        dicaGiroVista = true;
+        dicaRapida("Mexa o celular para olhar em volta");
+      }
+    }
+    // Para onde a traseira do aparelho aponta: leste, norte e alto
+    const ca = Math.cos(e.alpha * RAD),
+      sa = Math.sin(e.alpha * RAD),
+      cb = Math.cos(e.beta * RAD),
+      sb = Math.sin(e.beta * RAD),
+      cg = Math.cos(e.gamma * RAD),
+      sg = Math.sin(e.gamma * RAD);
+    const novo = [-ca * sg - sa * sb * cg, -sa * sg + ca * sb * cg, -cb * cg];
+    if (frente) frente = frente.map((v, i) => v + (novo[i] - v) * 0.4); // filtra o tremor do sensor
+    else frente = novo;
+
+    const [x, y, z] = frente;
+    const plano = Math.hypot(x, y);
+    const r = Math.atan2(x, y) / RAD;
+    const i = -Math.atan2(z, plano) / RAD; // na visita, positivo é olhar para baixo
+    // Apontando quase para o chão ou o teto, o rumo fica instável e é ignorado
+    if (rumo !== null && plano > 0.3) giroYaw += ((r - rumo + 540) % 360) - 180;
+    if (inclinacao !== null) giroPitch += i - inclinacao;
+    rumo = r;
+    inclinacao = i;
+  }
+
+  function aplicaGiro() {
+    if (!giroLigado) return;
+    if (arrasto || retorno || lento || fase !== 0) {
+      giroYaw = giroPitch = 0;
+      return;
+    }
+    if (Math.abs(giroYaw) < 0.03 && Math.abs(giroPitch) < 0.03) return;
+    gira(giroYaw, giroPitch);
+    giroYaw = giroPitch = 0;
+  }
+
+  async function pedeGiro(avisar) {
+    if (permitido || !temSensor) return;
+    try {
+      permitido = (await DeviceOrientationEvent.requestPermission()) === "granted";
+    } catch (e) {
+      permitido = false; // sem toque na tela, o iPhone não deixa perguntar
+    }
+    if (!permitido && avisar) dicaRapida("O navegador não permitiu usar o movimento");
+  }
+
+  function ligaGiro() {
+    if (giroLigado || !permitido || !maximizado || !querGiro) return;
+    giroLigado = true;
+    recebeuDados = false;
+    frente = rumo = inclinacao = null;
+    giroYaw = giroPitch = 0;
+    addEventListener("deviceorientation", aoGirar);
+    botaoGiro.setAttribute("aria-pressed", "true");
+    // Aparelho sem giroscópio ou página sem HTTPS: não chega nenhuma leitura
+    esperaDados = setTimeout(() => {
+      if (recebeuDados) return;
+      desligaGiro();
+      botaoGiro.hidden = true;
+    }, 1800);
+  }
+
+  function desligaGiro() {
+    giroLigado = false;
+    clearTimeout(esperaDados);
+    removeEventListener("deviceorientation", aoGirar);
+    botaoGiro.setAttribute("aria-pressed", "false");
+  }
+
+  botaoGiro.addEventListener("click", () => {
+    if (giroLigado) {
+      querGiro = false;
+      desligaGiro();
+    } else {
+      querGiro = true;
+      pedeGiro(true).then(ligaGiro);
+    }
+  });
+
+  function dicaRapida(texto) {
+    dicaAgora = texto;
+    atualizaDica();
+    clearTimeout(esperaDica);
+    esperaDica = setTimeout(() => {
+      dicaAgora = "";
+      atualizaDica();
+    }, 4000);
+  }
+
   // Celular deitado com a visita na tela: ela ocupa tudo sozinha, e volta ao ficar em pé
   let maxAutomatico = false,
     metadeNaTela = false;
@@ -741,6 +867,11 @@
 
   let tocou = false;
   function atualizaDica() {
+    if (dicaAgora && maximizado) {
+      dica.textContent = dicaAgora;
+      dica.hidden = false;
+      return;
+    }
     if (toque && maximizado && aspecto < 1) {
       dica.textContent = "Deite o celular para ver mais da sala";
       dica.hidden = false;

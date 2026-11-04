@@ -58,6 +58,10 @@
       <symbol id="shrink" viewBox="0 0 24 24">
         <path d="M20 10h-6V4M14 10l6-6M4 14h6v6M10 14l-6 6" />
       </symbol>
+      <symbol id="gyro" viewBox="0 0 24 24">
+        <rect x="8" y="3" width="8" height="18" rx="1.5" />
+        <path d="M4.5 8.5a6 6 0 0 0 0 7M19.5 8.5a6 6 0 0 1 0 7" />
+      </symbol>
       <symbol id="close" viewBox="0 0 24 24">
         <path d="m6 6 12 12M18 6 6 18" />
       </symbol>
@@ -370,6 +374,16 @@
               <div class="tour-actions">
                 <button class="tour-led" type="button" aria-pressed="false">
                   <i></i>Luzes de LED
+                </button>
+                <button
+                  class="tour-gyro"
+                  type="button"
+                  aria-label="Olhar em volta mexendo o celular"
+                  title="Mexer o celular para olhar em volta"
+                  aria-pressed="false"
+                  hidden
+                >
+                  <svg><use href="#gyro" /></svg>
                 </button>
                 <button class="tour-max" type="button" aria-label="Maximizar a visita">
                   <svg><use href="#expand" /></svg><span>Maximizar</span>

@@ -1998,6 +1998,31 @@ figcaption > span {
   background: #ffc54d;
   box-shadow: 0 0 10px 2px #ffc54dbf;
 }
+.tour-gyro {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: none;
+  color: #d5dade;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+.tour-gyro[hidden] {
+  display: none;
+}
+.tour-gyro svg {
+  width: 22px;
+  height: 22px;
+}
+.tour-gyro[aria-pressed="true"] {
+  border-color: var(--gold-light);
+  color: var(--gold-light);
+}
 .tour-max {
   border-color: var(--gold);
   background: var(--gold);
@@ -2125,6 +2150,10 @@ figcaption > span {
     padding: 0 8px;
     font-size: 15px;
   }
+  .tour-gyro {
+    width: 48px;
+    height: 48px;
+  }
   .tour-hint {
     bottom: 14px;
     font-size: 14px;
@@ -2190,13 +2219,31 @@ figcaption > span {
     height: calc(100svh - var(--header));
     min-height: 0;
   }
-  .tour-bar {
+  /* Vale também para aparelhos estreitos, como o iPhone SE deitado */
+  .tour-bar,
+  .tour.is-max .tour-bar {
+    position: absolute;
+    left: 50%;
+    right: auto;
     bottom: max(6px, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    flex-direction: row;
+    align-items: center;
     gap: 14px;
+    width: max-content;
+    max-width: calc(100% - 12px);
     padding: 2px 4px 2px 14px;
+    border: 1px solid var(--line);
+    background: #101d2ae6;
   }
   .tour-views {
     gap: 16px;
+  }
+  .tour-views button {
+    flex: none;
+  }
+  .tour-actions {
+    gap: 4px;
   }
   .tour-views button,
   .tour-led,
@@ -2206,12 +2253,21 @@ figcaption > span {
   }
   .tour-led,
   .tour-max {
+    flex: none;
     padding: 0 12px;
+  }
+  .tour.is-max .tour-hint {
+    bottom: 58px;
+  }
+  .tour-gyro {
+    width: 40px;
+    height: 40px;
   }
   .tour-hint {
     bottom: 58px;
   }
-  .tour-card {
+  .tour-card,
+  .tour.is-max .tour-card {
     top: 8px;
     right: max(8px, env(safe-area-inset-right));
     bottom: auto;
