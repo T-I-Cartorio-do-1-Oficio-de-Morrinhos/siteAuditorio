@@ -5,8 +5,8 @@
 (() => {
   // Ajustes da cortina
   const CONFIG = {
-    duracao: 3.8,   // segundos que as cortinas levam para abrir
-    pausa: 0.7,     // segundos fechadas antes de começar a abrir
+    duracao: 2.6,   // segundos que as cortinas levam para abrir
+    pausa: 0.4,     // segundos fechadas antes de começar a abrir
   };
 
   /* A cortina usa um trecho do tecido real do auditório. O tecido é comprimido

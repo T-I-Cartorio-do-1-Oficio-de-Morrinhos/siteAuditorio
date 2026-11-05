@@ -15,7 +15,7 @@ A publicação de prévia pelo Sites usa o identificador em `.openai/hosting.jso
 - `index.html`: textos, ordem das seções, referências às fotografias e estrutura da visita ao auditório.
 - `styles.css`: cores em `:root`, tipografia, layouts e pontos de adaptação de tela em 1200, 900, 650 e 359 px.
 - O cabeçalho ocupa toda a largura disponível; seu conteúdo não herda o limite de 1600 px das demais seções. A linha inferior também vai de ponta a ponta.
-- A abertura usa um trecho real do tecido do auditório, comprimido em tempo real no canvas, com a abertura central da cortina verdadeira. Pausa de 0,7 s e abertura de 3,8 s (cerca de 5 s até liberar a página). O botão “Pular abertura”, a limpeza da animação e o respeito a movimento reduzido são integrações do site.
+- A abertura usa um trecho real do tecido do auditório, comprimido em tempo real no canvas, com a abertura central da cortina verdadeira. Pausa de 0,4 s e abertura de 2,6 s (cerca de 3,5 s até liberar a página). O botão “Pular abertura”, a limpeza da animação e o respeito a movimento reduzido são integrações do site.
 - `curtain.js`: cortina em canvas, sem dependências externas. O tecido fica embutido em base64 e os tempos em `CONFIG`.
 - `tour.js`: visita interativa da seção 02, em WebGL, sem dependências. Textos e marcadores ficam em `CENAS`, e a história da escultura, em `ESCULTURA`; abertura da imagem e paralaxe, em `AJUSTE`. As Luzes de LED só mudam pelo botão, e a troca de vista só pelos botões.
 - `app.js`: menu móvel, abas, filtros, galeria ampliada por teclado ou gesto e progresso de leitura.
