@@ -5,6 +5,19 @@
 (() => {
   /* Edite aqui os textos e os pontos de interesse.
      lon = esquerda (-) / direita (+), lat = cima (-) / baixo (+), em graus. */
+  const ESCULTURA = {
+    nome: "Anna Maria Brandão Coelho",
+    resumo:
+      "Esta escultura traduz a trajetória de uma mulher sábia e ponderada, sensível e acolhedora, que edifica o lar e a família com amor e serenidade.",
+    texto: [
+      "Esta escultura traduz a trajetória de uma mulher sábia e ponderada, sensível e acolhedora, que edifica o lar e a família com amor e serenidade. Respeitosa, gentil e educada com todos, vive com sabedoria, força e ternura – virtudes que se refletem em cada traço desta forma.",
+      "A postura do corpo, em leve movimento, expressa firmeza e suavidade ao mesmo tempo – como quem enfrentou os desafios da vida com calma, coragem e esperança.",
+      "A cabeça erguida revela o orgulho sereno de quem tem paz com a própria história, sem arrogância, mas com a autoridade de uma vida construída sobre valores sólidos.",
+      "O rosto e o cabelo, em traços minimalistas, lembram que a verdadeira beleza não está nos adornos, mas na dignidade e na luz que emanam de gestos e atitudes.",
+      "O vestido longo simboliza o tempo — uma vida plena de fases, histórias e conquistas. Seu movimento contínuo evoca o fluir da existência: o tempo passa, mas não apaga; ela segue inspirando e deixando sua marca nas gerações futuras.",
+    ],
+  };
+
   const CENAS = {
     A: {
       olhar: { yaw: -8.2, pitch: 7 },
@@ -16,9 +29,8 @@
           lon: -4.5,
           lat: 9,
           titulo: "Escultura",
-          texto: "Peça central da plateia, posicionada entre as fileiras de cadeiras.",
+          historia: ESCULTURA,
           foco: { lon: -8.9, lat: 6.5, zoom: 1.9 },
-          angulos: true,
         },
       ],
     },
@@ -56,9 +68,8 @@
           lon: 11.5,
           lat: 4,
           titulo: "Escultura",
-          texto: "Peça central da plateia, posicionada entre as fileiras de cadeiras.",
+          historia: ESCULTURA,
           foco: { lon: 8, lat: 4.5, zoom: 1.5 },
-          angulos: true,
         },
       ],
     },
@@ -572,7 +583,6 @@
 
   /* ---------- Cartão e zoom na escultura ---------- */
   const cartao = raiz.querySelector(".tour-card");
-  const caixaAngulos = raiz.querySelector(".tour-angles");
 
   // Vai até o objeto com um zoom suave, deixando espaço para o cartão
   function focar(alvo) {
@@ -589,9 +599,12 @@
   }
 
   function abreCartao(p) {
-    cartao.querySelector("h3").textContent = p.titulo;
-    cartao.querySelector("p").textContent = p.texto;
-    caixaAngulos.hidden = !p.angulos;
+    const h = p.historia;
+    cartao.querySelector(".tour-card-label").hidden = !h;
+    cartao.querySelector("h3").textContent = h ? h.nome : p.titulo;
+    cartao.querySelector("p").textContent = h ? h.resumo : p.texto;
+    botaoHistoria.hidden = !h;
+    usou();
     cartao.dataset.fechado = "false";
     if (p.foco) focar(p.foco);
   }
@@ -608,6 +621,28 @@
   }
   raiz.querySelector(".tour-card-close").addEventListener("click", fechaCartao);
 
+  /* História completa da escultura, em uma tela de leitura */
+  const botaoHistoria = raiz.querySelector(".tour-story-open");
+  const historia = raiz.querySelector(".tour-story");
+  historia.querySelector("h2").textContent = ESCULTURA.nome;
+  ESCULTURA.texto.forEach((par) => {
+    const p = document.createElement("p");
+    p.textContent = par;
+    historia.querySelector(".tour-story-text").append(p);
+  });
+  botaoHistoria.addEventListener("click", () => {
+    historia.showModal();
+    historia.querySelector(".tour-story-body").scrollTop = 0;
+    body.classList.add("dialog-open");
+  });
+  historia.querySelector(".tour-story-close").addEventListener("click", () => historia.close());
+  historia.addEventListener("click", (e) => {
+    if (e.target === historia) historia.close();
+  });
+  historia.addEventListener("close", () => {
+    if (!maximizado) body.classList.remove("dialog-open");
+  });
+
   /* Fotos de outros ângulos, no mesmo visual da galeria do site */
   const foto = raiz.querySelector(".tour-lightbox");
   const fotoImg = foto.querySelector(".lightbox-image");
@@ -618,7 +653,7 @@
     const f = FOTOS_ESCULTURA[fotoAtual];
     fotoImg.src = f.src;
     fotoImg.alt = f.alt;
-    foto.querySelector(".lightbox-caption").textContent = "Escultura";
+    foto.querySelector(".lightbox-caption").textContent = ESCULTURA.nome;
     foto.querySelector(".lightbox-counter").textContent =
       `${String(fotoAtual + 1).padStart(2, "0")} / ${String(FOTOS_ESCULTURA.length).padStart(2, "0")}`;
   }
@@ -632,7 +667,7 @@
   );
   foto.querySelector(".lightbox-close").addEventListener("click", () => foto.close());
   foto.addEventListener("close", () => {
-    if (!maximizado) body.classList.remove("dialog-open");
+    if (!maximizado && !historia.open) body.classList.remove("dialog-open");
   });
   foto.querySelector(".lightbox-prev").addEventListener("click", () => mostraFoto(fotoAtual - 1));
   foto.querySelector(".lightbox-next").addEventListener("click", () => mostraFoto(fotoAtual + 1));
@@ -981,7 +1016,7 @@
 
   raiz.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
-      if (foto.open) return;
+      if (foto.open || historia.open) return;
       if (cartao.dataset.fechado === "false") fechaCartao();
       else if (maximizado) maximiza(false);
       return;

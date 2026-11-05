@@ -346,22 +346,12 @@
                 <button class="tour-card-close" type="button" aria-label="Fechar">
                   <svg><use href="#close" /></svg>
                 </button>
+                <span class="tour-card-label" hidden>Escultura</span>
                 <h3></h3>
                 <p></p>
-                <div class="tour-angles" hidden>
-                  <span>Outros ângulos</span>
-                  <div class="tour-thumbs">
-                    <button type="button" aria-label="Ver a escultura de lado">
-                      <img src="./assets/escultura-1-600.webp" alt="" width="600" height="280" loading="lazy" />
-                    </button>
-                    <button type="button" aria-label="Ver a escultura de trás">
-                      <img src="./assets/escultura-2-600.webp" alt="" width="600" height="280" loading="lazy" />
-                    </button>
-                    <button type="button" aria-label="Ver a escultura de frente">
-                      <img src="./assets/escultura-3-600.webp" alt="" width="280" height="600" loading="lazy" />
-                    </button>
-                  </div>
-                </div>
+                <button class="tour-story-open" type="button" hidden>
+                  História e outros ângulos <svg><use href="#arrow" /></svg>
+                </button>
               </aside>
             </div>
 
@@ -390,6 +380,40 @@
                 </button>
               </div>
             </div>
+
+            <dialog class="tour-story" aria-label="História da escultura">
+              <button class="tour-story-close icon-button" type="button" aria-label="Fechar história">
+                <svg><use href="#close" /></svg>
+              </button>
+              <div class="tour-story-body">
+                <img
+                  src="./assets/escultura-3-hd.webp"
+                  alt="Escultura vista de frente, em detalhe"
+                  width="700"
+                  height="1500"
+                  loading="lazy"
+                />
+                <div class="tour-story-copy">
+                  <span>Escultura</span>
+                  <h2></h2>
+                  <div class="tour-story-text"></div>
+                    <div class="tour-angles">
+                      <span>Outros ângulos</span>
+                      <div class="tour-thumbs">
+                        <button type="button" aria-label="Ver a escultura de lado">
+                          <img src="./assets/escultura-1-600.webp" alt="" width="600" height="280" loading="lazy" />
+                        </button>
+                        <button type="button" aria-label="Ver a escultura de trás">
+                          <img src="./assets/escultura-2-600.webp" alt="" width="600" height="280" loading="lazy" />
+                        </button>
+                        <button type="button" aria-label="Ver a escultura de frente">
+                          <img src="./assets/escultura-3-600.webp" alt="" width="280" height="600" loading="lazy" />
+                        </button>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </dialog>
 
             <dialog class="lightbox tour-lightbox" aria-label="Fotografias da escultura">
               <div class="lightbox-top">

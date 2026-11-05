@@ -1865,6 +1865,115 @@ figcaption > span {
   line-height: 1.55;
   color: #c5ccd2;
 }
+.tour-card-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+}
+.tour-card-label[hidden],
+.tour-story-open[hidden] {
+  display: none;
+}
+.tour-story-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: none;
+  color: var(--gold-light);
+  font-size: 14px;
+}
+.tour-story-open svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s;
+}
+.tour-story-open:hover svg {
+  transform: translateX(4px);
+}
+/* Tela de leitura da história */
+.tour-story {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: #0b1420f7;
+  color: var(--paper);
+}
+.tour-story::backdrop {
+  background: #08111a;
+}
+.tour-story[open] {
+  display: block;
+  animation: panel-in 0.25s ease;
+}
+.tour-story-close {
+  position: absolute;
+  z-index: 2;
+  top: max(14px, env(safe-area-inset-top));
+  right: max(14px, env(safe-area-inset-right));
+  background: #101d2ae6;
+}
+.tour-story-body {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: clamp(36px, 6vw, 96px);
+  height: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: clamp(32px, 5vh, 64px) var(--gutter);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.tour-story-body img {
+  justify-self: end;
+  width: auto;
+  max-width: 100%;
+  max-height: calc(100dvh - 2 * clamp(32px, 5vh, 64px));
+  border: 1px solid var(--line);
+  object-fit: contain;
+}
+.tour-story-copy > span {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+}
+.tour-story-copy h2 {
+  margin-top: 10px;
+  font: 400 clamp(36px, 3.6vw, 54px)/1.08 var(--serif);
+  letter-spacing: -0.02em;
+}
+.tour-story-text {
+  margin-top: 22px;
+}
+.tour-story-text p {
+  margin-top: 16px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #d5dade;
+}
+.tour-story-text p:first-child {
+  margin-top: 0;
+  font: 400 24px/1.35 var(--serif);
+  color: var(--paper);
+}
 .tour-card-close {
   position: absolute;
   top: 6px;
@@ -1884,10 +1993,7 @@ figcaption > span {
   height: 18px;
 }
 .tour-angles {
-  margin-top: 12px;
-}
-.tour-angles[hidden] {
-  display: none;
+  margin-top: 26px;
 }
 .tour-angles > span {
   display: block;
@@ -1904,7 +2010,7 @@ figcaption > span {
 .tour-thumbs button {
   flex: 1;
   min-width: 0;
-  height: 66px;
+  height: 76px;
   padding: 0;
   overflow: hidden;
   background: none;
@@ -2173,8 +2279,32 @@ figcaption > span {
   .tour-card h3 {
     font-size: 25px;
   }
-  .tour-thumbs button {
-    height: 62px;
+  .tour-story-body {
+    display: block;
+    padding: 0 0 max(32px, env(safe-area-inset-bottom));
+  }
+  .tour-story-body img {
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: 46dvh;
+    max-height: none;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    object-fit: cover;
+    object-position: 50% 12%;
+  }
+  .tour-story-copy {
+    padding: 24px var(--gutter) 0;
+  }
+  .tour-story-copy h2 {
+    font-size: 36px;
+  }
+  .tour-story-text p {
+    font-size: 16px;
+  }
+  .tour-story-text p:first-child {
+    font-size: 22px;
   }
   .tour.is-max .tour-bar {
     position: absolute;
@@ -2285,11 +2415,44 @@ figcaption > span {
   .tour-card p {
     font-size: 14px;
   }
-  .tour-angles > span {
-    display: none;
+  .tour-card,
+  .tour.is-max .tour-card {
+    max-height: calc(100% - 64px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
-  .tour-thumbs button {
-    height: 46px;
+  .tour-story-body {
+    display: grid;
+    grid-template-columns: minmax(0, 0.45fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 28px;
+    padding: 0 var(--gutter);
+  }
+  .tour-story-body img {
+    position: sticky;
+    top: 0;
+    justify-self: start;
+    width: 100%;
+    height: 100dvh;
+    max-height: none;
+    border: 0;
+    object-fit: cover;
+    object-position: 50% 12%;
+  }
+  .tour-story-copy {
+    padding: 22px 44px 22px 0;
+  }
+  .tour-story-copy h2 {
+    font-size: 32px;
+  }
+  .tour-story-text p:first-child {
+    font-size: 20px;
+  }
+}
+/* Telas muito baixas: o cartão mostra só o nome e o botão da história */
+@media (max-height: 360px) {
+  .tour-card p {
+    display: none;
   }
 }
 @media print {
