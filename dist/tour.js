@@ -1033,7 +1033,8 @@
     arrasto = null;
     canvas.classList.remove("is-grabbing");
     if (performance.now() - ultimoMov > 80) velYaw = velPitch = 0;
-    if (arrastou < 6 && e.type === "pointerup") fechaCartao();
+    // Um toque fecha o cartão; com zoom na escultura ou nas bandeiras, arrastar e soltar também sai do zoom
+    if (e.type === "pointerup" && (arrastou < 6 || retorno)) fechaCartao();
   };
   canvas.addEventListener("pointerup", soltaDedo);
   canvas.addEventListener("pointercancel", soltaDedo);
