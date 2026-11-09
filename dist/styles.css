@@ -217,7 +217,8 @@ body.curtain-opening {
 .brand span {
   color: var(--gold);
 }
-.site-header .brand {
+.site-header .brand,
+.site-footer .brand {
   display: inline-flex;
   align-items: center;
   gap: 14px;
@@ -1008,6 +1009,7 @@ figcaption > span {
   gap: 30px;
   padding-block: 30px;
   position: relative;
+  max-width: none; /* ocupa toda a largura, como o cabeçalho */
 }
 .site-footer:before {
   content: "";
@@ -2498,7 +2500,8 @@ figcaption > span {
   }
 }
 @media (max-width: 650px) {
-  .site-header .brand {
+  .site-header .brand,
+  .site-footer .brand {
     gap: 10px;
   }
   .brand-logo {
