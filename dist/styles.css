@@ -672,7 +672,7 @@ h3 {
 .auditorium {
   position: relative;
   overflow: hidden;
-  padding-bottom: 0;
+  padding-bottom: clamp(64px, 7vw, 112px);
 }
 .auditorium .chapter {
   color: var(--gold-light);
@@ -683,7 +683,7 @@ h3 {
   grid-template-areas: "lead copy" "note copy";
   align-items: end;
   column-gap: clamp(44px, 6vw, 100px);
-  margin-bottom: clamp(44px, 5vw, 64px);
+  margin-top: clamp(56px, 6vw, 96px);
 }
 .auditorium-lead {
   grid-area: lead;

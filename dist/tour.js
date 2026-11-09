@@ -1092,12 +1092,18 @@
     }
   }
 
+  // A visita fica no topo: espera as cortinas abrirem para não travar a animação
+  function depoisDaCortina() {
+    if (document.getElementById("opening-curtains")) setTimeout(depoisDaCortina, 200);
+    else inicia();
+  }
+
   let comecou = false;
   new IntersectionObserver(
     ([e]) => {
       if (e.isIntersecting && !comecou) {
         comecou = true;
-        inicia();
+        depoisDaCortina();
       }
     },
     { rootMargin: "500px 0px" },
