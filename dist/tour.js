@@ -49,7 +49,26 @@
           lon: 26,
           lat: 1,
           titulo: "Bandeiras",
-          texto: "Dispostas à frente da plateia, ao lado da tela de projeção.",
+          rotulo: "Símbolos",
+          texto: "Da esquerda para a direita, as bandeiras do estado, do país e do município.",
+          foco: { lon: 28, lat: 5, zoom: 1.6 },
+          bandeiras: [
+            {
+              nome: "Goiás",
+              img: "./assets/bandeiras/goias.svg",
+              texto: "Bandeira do estado, adotada em 1919, com as cinco estrelas do Cruzeiro do Sul.",
+            },
+            {
+              nome: "Brasil",
+              img: "./assets/bandeiras/brasil.svg",
+              texto: "Bandeira Nacional, adotada em 1889, com o lema “Ordem e Progresso”.",
+            },
+            {
+              nome: "Morrinhos",
+              img: "./assets/bandeiras/morrinhos.webp",
+              texto: "Bandeira do município onde fica o cartório, com o brasão municipal.",
+            },
+          ],
         },
         {
           lon: -21,
@@ -600,7 +619,29 @@
 
   function abreCartao(p) {
     const h = p.historia;
-    cartao.querySelector(".tour-card-label").hidden = !h;
+    const rotulo = cartao.querySelector(".tour-card-label");
+    rotulo.textContent = h ? "Escultura" : p.rotulo || "";
+    rotulo.hidden = !rotulo.textContent;
+    const lista = cartao.querySelector(".tour-flags");
+    lista.replaceChildren();
+    lista.hidden = !p.bandeiras;
+    (p.bandeiras || []).forEach((b) => {
+      const li = document.createElement("li");
+      const img = document.createElement("img");
+      img.src = b.img;
+      img.alt = `Bandeira de ${b.nome}`;
+      img.width = 50;
+      img.height = 35;
+      const txt = document.createElement("div");
+      const nome = document.createElement("strong");
+      nome.textContent = b.nome;
+      const desc = document.createElement("span");
+      desc.textContent = b.texto;
+      txt.append(nome, desc);
+      li.append(img, txt);
+      lista.append(li);
+    });
+    cartao.classList.toggle("has-flags", !!p.bandeiras);
     cartao.querySelector("h3").textContent = h ? h.nome : p.titulo;
     cartao.querySelector("p").textContent = h ? h.resumo : p.texto;
     botaoHistoria.hidden = !h;
