@@ -675,7 +675,7 @@ h3 {
 }
 /* Abertura da seção em fundo claro, acima da visita */
 .auditorium-intro {
-  padding-block: clamp(56px, 6vw, 96px);
+  padding-block: clamp(52px, 5.5vw, 88px);
 }
 .auditorium h2 {
   font-size: clamp(47px, 4.8vw, 74px);
@@ -697,30 +697,21 @@ h3 {
   line-height: 1.8;
   color: #42505d;
 }
-/* Cartão claro com o símbolo do cartório translúcido ao fundo */
-.auditorium-card {
+/* Faixa clara de ponta a ponta, com o símbolo do cartório translúcido ao fundo */
+.auditorium-intro {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: clamp(40px, 5vw, 80px) clamp(28px, 5vw, 84px);
   background: #fbfaf7;
-  border: 1px solid var(--line);
-  box-shadow: 0 24px 60px -36px #101d2a40;
+  border-bottom: 1px solid var(--line);
 }
-.auditorium-card:before {
-  content: "";
-  position: absolute;
-  inset: 14px;
-  border: 1px solid #c7a66c2e;
-  pointer-events: none;
-}
-.auditorium-card:after {
+.auditorium-intro:after {
   content: "";
   position: absolute;
   z-index: -1;
-  right: 4%;
+  right: max(4%, calc((100% - 1600px) / 2 + 4%));
   top: 50%;
-  height: 112%;
+  height: 116%;
   aspect-ratio: 600/827;
   background: url("./assets/simbolo-cartorio.webp") center / contain no-repeat;
   opacity: 0.17;
@@ -2526,11 +2517,11 @@ figcaption > span {
   .sede-card {
     padding-left: 0;
   }
-  .auditorium-card:after {
+  .auditorium-intro:after {
     top: auto;
-    bottom: -6%;
-    right: -12%;
-    height: 70%;
+    bottom: -4%;
+    right: -6%;
+    height: 62%;
     transform: none;
   }
 }
@@ -2538,15 +2529,12 @@ figcaption > span {
   .auditorium-text {
     font-size: 16px;
   }
-  .auditorium-card {
-    padding: 40px 24px 44px;
+  .auditorium-intro {
+    padding-block: 44px 48px;
   }
-  .auditorium-card:before {
-    inset: 8px;
-  }
-  .auditorium-card:after {
-    height: 58%;
-    right: -18%;
+  .auditorium-intro:after {
+    height: 50%;
+    right: -14%;
   }
   .sede-card p {
     font-size: 22px;
