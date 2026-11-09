@@ -677,27 +677,6 @@ h3 {
 .auditorium-intro {
   padding-block: clamp(56px, 6vw, 96px);
 }
-.auditorium-head {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  grid-template-areas: "lead copy" "note copy";
-  align-items: end;
-  column-gap: clamp(44px, 6vw, 100px);
-}
-.auditorium-lead {
-  grid-area: lead;
-}
-.auditorium-copy {
-  grid-area: copy;
-  align-self: end;
-}
-.auditorium-head .inauguration {
-  grid-area: note;
-  justify-self: start;
-}
-.auditorium-copy > p:first-child {
-  margin-top: 0;
-}
 .auditorium h2 {
   font-size: clamp(47px, 4.8vw, 74px);
   margin-bottom: 28px;
@@ -705,11 +684,72 @@ h3 {
 .auditorium h2 em {
   color: #a37a3d;
 }
-.auditorium-copy > p:not(.chapter) {
-  font-size: 15px;
+.auditorium-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  align-items: center;
+  gap: clamp(44px, 7vw, 120px);
+}
+.auditorium-text {
+  max-width: 520px;
+  margin-top: 4px;
+  font-size: 17px;
+  line-height: 1.8;
   color: #42505d;
-  line-height: 1.85;
-  margin-top: 20px;
+}
+/* Cartão claro com o símbolo do cartório translúcido ao fundo */
+.auditorium-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(40px, 5vw, 80px) clamp(28px, 5vw, 84px);
+  background: #fbfaf7;
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px -36px #101d2a40;
+}
+.auditorium-card:before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid #c7a66c2e;
+  pointer-events: none;
+}
+.auditorium-card:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: 4%;
+  top: 50%;
+  height: 112%;
+  aspect-ratio: 600/827;
+  background: url("./assets/simbolo-cartorio.webp") center / contain no-repeat;
+  opacity: 0.17;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.sede-card {
+  position: relative;
+  padding-left: clamp(0px, 2vw, 32px);
+}
+.sede-line {
+  display: block;
+  width: 56px;
+  height: 1px;
+  margin-bottom: 24px;
+  background: var(--gold);
+}
+.sede-card p {
+  max-width: 440px;
+  font: 400 clamp(23px, 2vw, 30px)/1.32 var(--serif);
+  color: var(--ink);
+}
+.sede-local {
+  display: block;
+  margin-top: 24px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8a6631;
 }
 .inauguration {
   border-left: 1px solid var(--gold);
@@ -1282,18 +1322,8 @@ figcaption > span {
   .value-panels {
     min-height: 240px;
   }
-  .auditorium-head {
-    grid-template-columns: 1fr;
-    grid-template-areas: "lead" "copy" "note";
-  }
-  .auditorium-copy {
-    max-width: 700px;
-  }
   .auditorium h2 {
     max-width: 550px;
-  }
-  .auditorium-copy > p:not(.chapter) {
-    max-width: 620px;
   }
   .inauguration {
     margin-top: 25px;
@@ -1483,11 +1513,6 @@ figcaption > span {
   .auditorium h2 {
     font-size: 49px;
     margin-bottom: 23px;
-  }
-  .auditorium-copy > p:not(.chapter) {
-    font-size: 16px;
-    line-height: 1.85;
-    margin-top: 18px;
   }
   .inauguration > span {
     font-size: 12px;
@@ -2491,6 +2516,40 @@ figcaption > span {
   .brand-logo {
     width: 32px;
     height: 32px;
+  }
+}
+@media (max-width: 900px) {
+  .auditorium-head {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .sede-card {
+    padding-left: 0;
+  }
+  .auditorium-card:after {
+    top: auto;
+    bottom: -6%;
+    right: -12%;
+    height: 70%;
+    transform: none;
+  }
+}
+@media (max-width: 650px) {
+  .auditorium-text {
+    font-size: 16px;
+  }
+  .auditorium-card {
+    padding: 40px 24px 44px;
+  }
+  .auditorium-card:before {
+    inset: 8px;
+  }
+  .auditorium-card:after {
+    height: 58%;
+    right: -18%;
+  }
+  .sede-card p {
+    font-size: 22px;
   }
 }
 @media print {
