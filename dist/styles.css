@@ -744,6 +744,16 @@ h3 {
   position: relative;
   overflow: hidden;
 }
+/* Divisória entre O legado e Memórias, que agora ficam lado a lado */
+.legacy + .memories:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: max(var(--gutter), calc((100% - 1600px) / 2 + var(--gutter)));
+  right: max(var(--gutter), calc((100% - 1600px) / 2 + var(--gutter)));
+  height: 1px;
+  background: var(--line);
+}
 .memories > .wrap {
   position: relative;
 }
