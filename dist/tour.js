@@ -65,7 +65,7 @@
             },
             {
               nome: "Morrinhos",
-              img: "./assets/bandeiras/morrinhos.webp",
+              img: "./assets/bandeiras/morrinhos.svg",
               texto: "Bandeira do município onde fica o cartório, com o brasão municipal.",
             },
           ],
