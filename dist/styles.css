@@ -1850,6 +1850,9 @@ figcaption > span {
 .tour-point:focus-visible span {
   max-width: 200px;
 }
+.tour-point.is-open span {
+  max-width: 0;
+}
 .tour-hint,
 .tour-status {
   position: absolute;

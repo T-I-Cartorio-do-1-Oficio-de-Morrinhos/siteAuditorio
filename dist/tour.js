@@ -642,7 +642,9 @@
   }
 
   function abreCartao(p, botao) {
+    if (ancora) ancora.classList.remove("is-open");
     ancora = p.foco || p.historia || p.bandeiras ? null : botao || null;
+    if (ancora) ancora.classList.add("is-open"); // o nome do ponto fica escondido enquanto o cartão está aberto
     cartao.classList.toggle("is-anchored", !!ancora);
     cartao.style.left = cartao.style.top = cartao.style.width = "";
     const h = p.historia;
@@ -679,6 +681,7 @@
 
   function fechaCartao() {
     cartao.dataset.fechado = "true";
+    if (ancora) ancora.classList.remove("is-open");
     ancora = null;
     if (retorno) {
       alvoYaw = retorno.yaw;
