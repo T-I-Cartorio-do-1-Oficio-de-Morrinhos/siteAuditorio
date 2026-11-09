@@ -567,7 +567,7 @@
       b.lastChild.textContent = p.titulo;
       b.setAttribute("aria-label", p.titulo);
       b.hidden = true;
-      b.addEventListener("click", () => abreCartao(p));
+      b.addEventListener("click", () => abreCartao(p, b));
       caixaPontos.append(b);
       elementos.push({ c, b, lon: p.lon * RAD, lat: p.lat * RAD });
     }
@@ -597,7 +597,31 @@
       }
       e.b.hidden = false;
       e.b.style.transform = `translate(${sx | 0}px,${sy | 0}px)`;
+      if (e.b === ancora) posicionaCartao(sx, sy);
     }
+  }
+
+  // Cartões sem zoom (tela, quadro) aparecem ao lado do ponto clicado
+  let ancora = null;
+  function posicionaCartao(x, y) {
+    const m = 12,
+      gap = 34,
+      w = cartao.offsetWidth,
+      h = cartao.offsetHeight;
+    let left, top;
+    if (cw <= 650) {
+      // Celular em pé: largura cheia, logo abaixo ou acima do ponto
+      left = m;
+      top = y + gap + h <= ch - m ? y + gap : y - gap - h;
+      cartao.style.width = `${cw - 2 * m}px`;
+    } else {
+      left = x + gap + w <= cw - m ? x + gap : x - gap - w;
+      top = y - h / 2;
+    }
+    left = clamp(left, m, Math.max(m, cw - w - m));
+    top = clamp(top, m, Math.max(m, ch - h - m));
+    cartao.style.left = `${left | 0}px`;
+    cartao.style.top = `${top | 0}px`;
   }
 
   /* ---------- Cartão e zoom na escultura ---------- */
@@ -617,7 +641,10 @@
     lento = true;
   }
 
-  function abreCartao(p) {
+  function abreCartao(p, botao) {
+    ancora = p.foco || p.historia || p.bandeiras ? null : botao || null;
+    cartao.classList.toggle("is-anchored", !!ancora);
+    cartao.style.left = cartao.style.top = cartao.style.width = "";
     const h = p.historia;
     const rotulo = cartao.querySelector(".tour-card-label");
     rotulo.textContent = h ? "Escultura" : p.rotulo || "";
@@ -652,6 +679,7 @@
 
   function fechaCartao() {
     cartao.dataset.fechado = "true";
+    ancora = null;
     if (retorno) {
       alvoYaw = retorno.yaw;
       alvoPitch = retorno.pitch;
@@ -980,6 +1008,8 @@
     if (!iniciado) return;
     canvas.setPointerCapture(e.pointerId);
     toques.set(e.pointerId, e);
+    // Cartões sem zoom somem com qualquer toque na sala, de clique ou de arrasto
+    if (ancora && cartao.dataset.fechado === "false") fechaCartao();
     arrasto = { x: e.clientX, y: e.clientY };
     velYaw = velPitch = 0;
     arrastou = 0;

@@ -2636,6 +2636,19 @@ figcaption > span {
     font-size: 22px;
   }
 }
+/* Cartão ao lado do ponto clicado: a posição vem do script */
+.tour .tour-card.is-anchored {
+  right: auto;
+  bottom: auto;
+  max-height: none;
+  transform: none;
+  transition:
+    opacity 0.25s,
+    visibility 0.25s;
+}
+.tour .tour-card.is-anchored[data-fechado="true"] {
+  transform: none;
+}
 @media print {
   body {
     overflow: visible;
