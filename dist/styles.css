@@ -543,20 +543,22 @@ h3 {
 .legacy-photo {
   margin-top: 50px;
   position: relative;
+  max-width: 520px;
 }
 .legacy-photo:before {
   content: "";
   position: absolute;
   inset: -14px 18px 44px -14px;
   border: 1px solid var(--gold);
-  border-radius: 200px 200px 0 0 / 95px 95px 0 0;
+  border-radius: 999px 999px 0 0 / 280px 280px 0 0;
   pointer-events: none;
 }
 .legacy-photo img {
-  aspect-ratio: 1.5;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
+  object-position: 50% 30%;
   width: 100%;
-  border-radius: 180px 180px 0 0 / 80px 80px 0 0;
+  border-radius: 999px 999px 0 0 / 260px 260px 0 0;
   position: relative;
 }
 .legacy-photo > span {
