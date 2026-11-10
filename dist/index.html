@@ -132,6 +132,30 @@
                 lugar para continuar inspirando.
               </p>
               <span class="sede-local">Nova sede · Morrinhos / GO</span>
+              <a
+                class="route-card"
+                href="./assets/como-chegar.mp4"
+                data-route-open
+                aria-haspopup="dialog"
+              >
+                <span class="route-thumb">
+                  <img
+                    src="./assets/como-chegar-capa.webp"
+                    alt=""
+                    width="1280"
+                    height="720"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span class="route-play" aria-hidden="true">
+                    <svg><use href="#play" /></svg>
+                  </span>
+                </span>
+                <span class="route-text">
+                  <strong>Como chegar?</strong>
+                  <span>O caminho da entrada até o auditório, em 1 minuto.</span>
+                </span>
+              </a>
             </aside>
           </div>
         </div>
@@ -459,6 +483,26 @@
         </div>
       </section>
     </main>
+
+    <dialog class="route-dialog" aria-label="Como chegar ao auditório">
+      <div class="route-dialog-top">
+        <p>Como chegar ao auditório</p>
+        <button class="icon-button route-close" type="button" aria-label="Fechar vídeo">
+          <svg><use href="#close" /></svg>
+        </button>
+      </div>
+      <video
+        controls
+        playsinline
+        preload="none"
+        poster="./assets/como-chegar-capa.webp"
+        width="1280"
+        height="720"
+      >
+        <source src="./assets/como-chegar.mp4" type="video/mp4" />
+      </video>
+    </dialog>
+
 
     <footer class="site-footer wrap">
       <a class="brand" href="#inicio" aria-label="Auditório WJC — voltar ao início"

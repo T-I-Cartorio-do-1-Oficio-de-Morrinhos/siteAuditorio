@@ -121,3 +121,25 @@ window.addEventListener(
 );
 window.addEventListener("resize", updateProgress, { passive: true });
 updateProgress();
+
+// Como chegar: abre o vídeo do caminho até o auditório numa janela
+const routeDialog = document.querySelector(".route-dialog");
+const routeOpen = document.querySelector("[data-route-open]");
+if (routeDialog && routeOpen && typeof routeDialog.showModal === "function") {
+  const routeVideo = routeDialog.querySelector("video");
+  routeOpen.addEventListener("click", (event) => {
+    event.preventDefault();
+    routeDialog.showModal();
+    routeVideo.play().catch(() => {});
+  });
+  routeDialog
+    .querySelector(".route-close")
+    .addEventListener("click", () => routeDialog.close());
+  routeDialog.addEventListener("click", (event) => {
+    if (event.target === routeDialog) routeDialog.close();
+  });
+  routeDialog.addEventListener("close", () => {
+    routeVideo.pause();
+    routeOpen.focus();
+  });
+}
