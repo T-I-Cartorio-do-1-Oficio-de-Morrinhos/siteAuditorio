@@ -228,9 +228,8 @@ body.curtain-opening {
 }
 .brand-logo {
   flex: none;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  width: auto;
+  height: 40px;
 }
 .main-nav {
   display: flex;
@@ -2600,14 +2599,14 @@ figcaption > span {
     gap: 10px;
   }
   .brand-logo {
-    width: 36px;
-    height: 36px;
+    width: auto;
+    height: 34px;
   }
 }
 @media (max-height: 500px) and (orientation: landscape) {
   .brand-logo {
-    width: 32px;
-    height: 32px;
+    width: auto;
+    height: 30px;
   }
 }
 @media (max-width: 900px) {
