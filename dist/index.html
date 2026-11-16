@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#101d2a" />
     <script>
+      /* Ao recarregar, a página sempre volta para o início (não para onde estava). */
+      (function () {
+        if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+        if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+        function topo() { window.scrollTo({ top: 0, left: 0, behavior: "instant" }); }
+        topo();
+        document.addEventListener("DOMContentLoaded", topo);
+      })();
+    </script>
+    <script>
       document.documentElement.classList.add("has-opening");
     </script>
     <meta
