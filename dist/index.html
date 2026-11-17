@@ -397,20 +397,11 @@
                 aria-label="Valores de uma trajetória"
               >
                 <button
-                  id="tab-palavra"
-                  role="tab"
-                  aria-selected="true"
-                  aria-controls="panel-palavra"
-                  tabindex="0"
-                >
-                  A palavra
-                </button>
-                <button
                   id="tab-exemplo"
                   role="tab"
-                  aria-selected="false"
+                  aria-selected="true"
                   aria-controls="panel-exemplo"
-                  tabindex="-1"
+                  tabindex="0"
                 >
                   O exemplo
                 </button>
@@ -423,31 +414,22 @@
                 >
                   O conhecimento
                 </button>
+                <button
+                  id="tab-palavra"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="panel-palavra"
+                  tabindex="-1"
+                >
+                  A palavra
+                </button>
               </div>
               <div class="value-panels">
-                <div
-                  id="panel-palavra"
-                  role="tabpanel"
-                  aria-labelledby="tab-palavra"
-                  tabindex="0"
-                >
-                  <blockquote>
-                    <span aria-hidden="true">“</span>Não há crise que resista a
-                    um trabalho sério, honesto e organizado.<span
-                      aria-hidden="true"
-                      >”</span
-                    >
-                  </blockquote>
-                  <p class="quote-source">
-                    Uma convicção que orienta sua trajetória.
-                  </p>
-                </div>
                 <div
                   id="panel-exemplo"
                   role="tabpanel"
                   aria-labelledby="tab-exemplo"
                   tabindex="0"
-                  hidden
                 >
                   <h3>Ensinar também é viver aquilo em que se acredita.</h3>
                   <p>
@@ -469,6 +451,24 @@
                     Estudioso incansável e orador nato, Dr. Wolfgang sempre
                     encontrou no diálogo e no aprendizado uma maneira de
                     inspirar outras pessoas.
+                  </p>
+                </div>
+                <div
+                  id="panel-palavra"
+                  role="tabpanel"
+                  aria-labelledby="tab-palavra"
+                  tabindex="0"
+                  hidden
+                >
+                  <blockquote>
+                    <span aria-hidden="true">“</span>Não há crise que resista a
+                    um trabalho sério, honesto e organizado.<span
+                      aria-hidden="true"
+                      >”</span
+                    >
+                  </blockquote>
+                  <p class="quote-source">
+                    — Dr. Wolfgang Jorge Coelho
                   </p>
                 </div>
               </div>
