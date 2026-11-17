@@ -984,6 +984,10 @@ figcaption > span {
   font: 400 clamp(39px, 4.8vw, 75px)/1.1 var(--serif);
   letter-spacing: -0.035em;
 }
+.closing-quote em {
+  font-weight: 400;
+  color: var(--gold-light);
+}
 .closing-line {
   width: 50px;
   height: 1px;
